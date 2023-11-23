@@ -1,18 +1,20 @@
-# find_package(OpenCV REQUIRED)
-# ~~~
-# if(OpenCV_FOUND)
-#   message(STATUS "OpenCV found")
-#   message(STATUS "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
-#   message(STATUS "OpenCV_LIBS:
-# ${OpenCV_LIBS}")
-#   message(STATUS "OpenCV_VERSION: ${OpenCV_VERSION}")
-# else()
-#   message(FATAL_ERROR "OpenCV not found")
-# endif()
-# ~~~
 cmake_minimum_required(VERSION 3.10)
 project(tensorrt_demo)
 set(CMAKE_CXX_STANDARD 11)
+# ~~~
+find_package(OpenCV REQUIRED)
+if(OpenCV_FOUND)
+  message(STATUS "OpenCV found")
+  message(STATUS "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+  message(STATUS "OpenCV_LIBS:
+${OpenCV_LIBS}")
+  message(STATUS "OpenCV_VERSION: ${OpenCV_VERSION}")
+  include_directories(${OpenCV_INCLUDE_DIRS})
+  link_directories(${OpenCV_LIB_DIR})
+else()
+  message(FATAL_ERROR "OpenCV not found")
+endif()
+# ~~~
 
 # ------------------- common -------------------
 # 公共库和引入的头文件
@@ -58,7 +60,7 @@ aux_source_directory(samples/ SRC)
 foreach(demo ${SRC})
   get_filename_component(demo_name ${demo} NAME_WE)
   add_executable(${demo_name} ${demo})
-  target_link_libraries(${demo_name} co ${NV_LIBS} ${EXTRA_LIBS})
+  target_link_libraries(${demo_name} co ${NV_LIBS} ${EXTRA_LIBS} ${OpenCV_LIBS})
 endforeach()
 
 # set_target_properties( ${demo_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY

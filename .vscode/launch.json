@@ -10,11 +10,12 @@
       "request": "launch",
       "program": "${workspaceRoot}/tensorrt/build/sampleDetect",
       "args": [
-        "-m",
-        "${workspaceRoot}/libtorch/model/yolov8n.onnx"
+        "../libtorch/data/crowd.jpeg",
+        "-e",
+        "${workspaceRoot}/libtorch/model/yolov8n.engine",
       ],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceRoot}/tensorrt",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
