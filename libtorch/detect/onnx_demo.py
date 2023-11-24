@@ -151,6 +151,7 @@ def get_onnx_class_map(model_path: str):
 def run(model_path, image_path, use_soft, use_gpu):
     height, width = 640, 640
     img0 = cv2.imread(image_path)
+    img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
     x_scale = img0.shape[1] / width
     y_scale = img0.shape[0] / height
     img = img0 / 255.
@@ -168,7 +169,7 @@ def run(model_path, image_path, use_soft, use_gpu):
       # Please change the value according to best setting in Performance Test Tool result.
       sess_options.intra_op_num_threads=psutil.cpu_count(logical=True)
 
-      session = onnxruntime.InferenceSession(model_path, sess_options, providers=["TensorrtExecutionProvider","CUDAExecutionProvider", "CPUExecutionProvider"])
+      session = onnxruntime.InferenceSession(model_path, sess_options, providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
     else:
       session = onnxruntime.InferenceSession(model_path)
 
@@ -191,10 +192,12 @@ def run(model_path, image_path, use_soft, use_gpu):
       result = nms(pred, 0.3, 0.45)  # 进行 NMS
     ret_img = img0.copy()
     draw(ret_img, x_scale, y_scale, result, label2name)
-    ret_img = ret_img[:, :, ::-1]  # turn BGR to RGB
+    # ret_img = ret_img[:, :, ::-1]  # turn BGR to RGB
     
     # format 
     filename =  "detect_soft_nms.jpg" if use_soft else "detect_nms.jpg"
+    if not os.path.exists("out"):
+      os.mkdir("out")
     filename = os.path.join("out", filename)
     plt.imsave(filename, ret_img)
       
