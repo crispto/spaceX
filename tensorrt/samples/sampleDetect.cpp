@@ -34,6 +34,7 @@ fastring remove_ext(fastring &filename)
     }
     return filename.substr(0, pos);
 }
+
 int main(int argc, char **argv)
 {
     auto argparser = CommandLineParser(argv[0], "TensorRT sample for object detection");
@@ -42,6 +43,10 @@ int main(int argc, char **argv)
     argparser.Parse(argc, argv);
     string engine_path = argparser["-e"].ToString();
     string model_path = argparser["-m"].ToString();
+    if (engine_path.empty() && model_path.empty()) {
+        sample::gLogError << "engine_path and model_path can not be empty" << endl;
+        exit(EXIT_FAILURE);
+    }
     // check path exists
     co::print("engine_path: ", engine_path);
     co::print("model_path: ", model_path);

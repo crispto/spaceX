@@ -27,6 +27,8 @@ set(NVPARSERS_LIB nvparsers)
 set(NVINFER_PLUGIN_LIB nvinfer_plugin)
 set(NVONNXPARSERS_LIB nvonnxparser)
 
+include_directories("/usr/local/include" "/usr/local/cuda/include"
+                    "/usr/local/tensorrt/include")
 link_directories("/usr/local/lib" "/usr/local/cuda/lib64"
                  "/usr/local/tensorrt/lib" common_lib)
 
@@ -43,15 +45,20 @@ set(NV_LIBS
     ${CUDART_LIB}
     ${CUDNN_LIB}
     ${CUBLAS_LIB})
+    set(NV_LIBS ${NV_LIBS} ${CUDA_LIBRARIES})
+message(NOTICE "CUDA_VERSION: ${CUDA_VERSION}")
 
-set(EXTRA_LIBS rt dl pthread co tensorrt_helper)
+set(TRT_HELP tensorrt_help_${CUDA_VERSION})
+set(EXTRA_LIBS rt dl pthread co ${TRT_HELP})
 
+add_definitions(-DCUDA_VERSION=${CUDA_VERSION})
 # ~~~
 # lib
 # file(GLOB COMMON_SRC common/*.cpp)
-# add_library(tensorrt_helper SHARED ${COMMON_SRC})
 
-# target_link_libraries(tensorrt_helper ${NV_LIBS} ${EXTRA_LIBS})
+# add_library(${TRT_HELP} SHARED ${COMMON_SRC})
+
+# target_link_libraries(${TRT_HELP} ${NV_LIBS})
 # ~~~
 # ------------------- demo -------------------
 aux_source_directory(samples/ SRC)
