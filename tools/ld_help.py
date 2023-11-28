@@ -1,3 +1,4 @@
+# 消除 ldconfig  建立cache 时的报错
 import subprocess
 import re
 from os import path
