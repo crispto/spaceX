@@ -233,8 +233,8 @@ void run_inference(string image_path, unique_ptr<ICudaEngine> &engine, unique_pt
     int height = 640;
     cv::Mat resized_img;
     cv::resize(img, resized_img, cv::Size(width, height));
-    // cv::imwrite("resized_cpp.jpg", resized_img);
-    // return;
+    cv::imwrite("out/resized_cpp.jpg", resized_img);
+    return;
     std::shared_ptr<float> input_blob(new float[3 * width * height], [](float *p) { delete[] p; });
     // transpose 里面会进行归一化
     transpose(resized_img, input_blob);

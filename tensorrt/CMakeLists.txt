@@ -29,11 +29,8 @@ set(NVPARSERS_LIB nvparsers)
 set(NVINFER_PLUGIN_LIB nvinfer_plugin)
 set(NVONNXPARSERS_LIB nvonnxparser)
 
-include_directories("/usr/local/include" "/usr/local/cuda/include"
-                    "/usr/local/tensorrt/include")
-link_directories("/usr/local/lib" "/usr/local/cuda/lib64"
-                 "/usr/local/tensorrt/lib" "common_lib")
 
+link_directories(common_lib)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
 else()
@@ -57,11 +54,21 @@ set(EXTRA_LIBS rt dl pthread co ${TRT_HELP})
 add_definitions(-DCUDA_VERSION=${CUDA_VERSION})
 # ~~~
 # lib
-# file(GLOB COMMON_SRC common/*.cpp)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+if(BUILD_SHARED_LIBS)
+  message(STATUS "Build shared libraries")
+  file(GLOB COMMON_SRC common/*.cpp)
 
-# add_library(${TRT_HELP} SHARED ${COMMON_SRC})
+  add_library(${TRT_HELP} SHARED ${COMMON_SRC})
+  target_link_libraries(${TRT_HELP} ${NV_LIBS})
+  # set build path of lib
+  set_target_properties(
+    ${TRT_HELP} PROPERTIES LIBRARY_OUTPUT_DIRECTORY
+                           ${CMAKE_CURRENT_SOURCE_DIR}/common_lib)
+else()
+  message(STATUS "Build static libraries")
+endif()
 
-# target_link_libraries(${TRT_HELP} ${NV_LIBS})
 # ~~~
 # ------------------- demo -------------------
 aux_source_directory(samples/ SRC)

@@ -16,6 +16,7 @@ dump-engine:
 	./build/sampleDetect -m /home/SENSETIME/yangchengwei/900G/coding/github/spaceX/libtorch/model/yolov8n.onnx
 
 build:
+	rm -rf build
 	cmake -DCMAKE_BUILD_TYPE=Debug \
 	-DCUDA_VERSION=$(CUDA_VERSION) \
 	-B build .
