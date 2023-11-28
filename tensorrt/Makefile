@@ -17,5 +17,6 @@ dump-engine:
 
 build:
 	cmake -DCMAKE_BUILD_TYPE=Debug \
+	-DCUDA_VERSION=$(CUDA_VERSION) \
 	-B build .
 	make -C build -j8

@@ -32,7 +32,7 @@ set(NVONNXPARSERS_LIB nvonnxparser)
 include_directories("/usr/local/include" "/usr/local/cuda/include"
                     "/usr/local/tensorrt/include")
 link_directories("/usr/local/lib" "/usr/local/cuda/lib64"
-                 "/usr/local/tensorrt/lib" common_lib)
+                 "/usr/local/tensorrt/lib" "common_lib")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
@@ -47,9 +47,10 @@ set(NV_LIBS
     ${CUDART_LIB}
     ${CUDNN_LIB}
     ${CUBLAS_LIB})
-    set(NV_LIBS ${NV_LIBS} ${CUDA_LIBRARIES})
+set(NV_LIBS ${NV_LIBS} ${CUDA_LIBRARIES})
 message(NOTICE "CUDA_VERSION: ${CUDA_VERSION}")
 
+# 这里用不同的 tensortrt common 版本
 set(TRT_HELP tensorrt_help_${CUDA_VERSION})
 set(EXTRA_LIBS rt dl pthread co ${TRT_HELP})
 

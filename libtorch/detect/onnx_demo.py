@@ -144,10 +144,10 @@ def get_onnx_class_map(model_path: str):
 
 
 @click.command()
-@click.argument('model_path', default='model/yolov8n.onnx')
-@click.argument('image_path', default='data/crowd.jpeg')
-@click.option('--use-soft', type=bool, default=True, help="是否使用 soft-nms 策略略")
-@click.option('--use-gpu', type=bool, default=True, help="是否使用 gpu 运行推理")
+@click.argument('model_path', type=click.Path(exists=True), default='model/yolov8n.onnx')
+@click.argument('image_path', type=click.Path(exists=True), default='data/crowd.jpeg')
+@click.option('--use-soft', type=bool, default=True, help="是否使用 soft-nms 策略略, False 则使用普通 nms")
+@click.option('--use-gpu', type=bool, default=True, help="是否使用 gpu 运行推理(CUDAExecutionProvider)")
 def run(model_path, image_path, use_soft, use_gpu):
     height, width = 640, 640
     img0 = cv2.imread(image_path)
@@ -156,6 +156,7 @@ def run(model_path, image_path, use_soft, use_gpu):
     y_scale = img0.shape[0] / height
     img = img0 / 255.
     img = cv2.resize(img, (width, height))
+    # cv2.imwrite("resized_python.jpg", img)
     img = np.transpose(img, (2, 0, 1))
     data = np.expand_dims(img, axis=0)
     # get meta
