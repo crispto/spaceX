@@ -1,8 +1,14 @@
+cmake_minimum_required(VERSION 3.5)
+project(cuda_demo)
 # find all .cpp file
 set(CUDA_HELP_INC
-    "/home/SENSETIME/yangchengwei/coding/github/cuda-samples/common/inc")
+    "$ENV{CUDA_SAMPLE_DATA}/Common")
+message(NOTICE "CUDA_HELP_INC: ${CUDA_HELP_INC}")
 include_directories(${CUDA_HELP_INC})
 # find cuda
+if(POLICY CMP0146)
+  cmake_policy(SET CMP0146 OLD)
+endif()
 find_package(CUDA REQUIRED)
 file(GLOB demo_dir *.cpp)
 

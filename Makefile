@@ -1,7 +1,7 @@
 .PHONY: clean build
 
 CUDA_VERSION := $(shell nvcc --version|grep -oP 'cuda_(\d+\.\d+)'| sed 's/cuda_//')
-target ?= tensorrt
+target ?= cuda
 build: clean
 	@echo "CUDA Version: $(CUDA_VERSION)"
 	cd ${target} && \
