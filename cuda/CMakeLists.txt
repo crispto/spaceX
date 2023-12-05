@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(cuda_demo)
+project(cuda_demo LANGUAGES CXX CUDA)
 # find all .cpp file
 set(CUDA_HELP_INC
     "$ENV{CUDA_SAMPLE_DATA}/Common")
@@ -10,14 +10,15 @@ if(POLICY CMP0146)
   cmake_policy(SET CMP0146 OLD)
 endif()
 find_package(CUDA REQUIRED)
-file(GLOB demo_dir *.cpp)
 
-foreach(src ${demo_dir})
-  get_filename_component(subdir_name ${src} NAME_WE)
-  add_executable(${subdir_name} ${src})
-  target_link_libraries(${subdir_name} ${CUDA_LIBRARIES})
-  # set target bin directory bin/cuda
+add_executable(basic basic.cpp)
+target_link_libraries(basic ${CUDA_LIBRARIES})
 
-  # set_target_properties( ${subdir_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-  # ${PROJECT_BINARY_DIR}/bin/cuda)
-endforeach()
+
+set(CMAKE_CUDA_FLAGS "-G")
+# set(CMAKE_CUDA_FLAGS_DEBUG "-O0 -g -lineinfo")
+set(CMAKE_CUDA_FLAGS_RELEASE "-O3")
+aux_source_directory(geem GEEM_SRC)
+add_executable(geem ${GEEM_SRC})
+target_link_libraries(geem ${CUDA_LIBRARIES})
+
