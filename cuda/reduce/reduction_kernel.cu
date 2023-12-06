@@ -1,6 +1,6 @@
-#include <cuda_runtime.h>
-#include "a.hpp"
+#include "reduction.hpp"
 #include <cuda.h>
+#include <cuda_runtime.h>
 
 __global__ void reduce_kernel(float *p, ulong N, float *ret)
 {
@@ -9,18 +9,16 @@ __global__ void reduce_kernel(float *p, ulong N, float *ret)
     __shared__ float result[1024];
     result[threadIdx.x] = 0.0f;
     for (ulong i = tid; i < N; i += blockDim.x) {
-      result[threadIdx.x] += p[i];
+        result[threadIdx.x] += p[i];
     }
     __syncthreads();
-    if (threadIdx.x == 0){
-      float tmp = 0;
-      for (int i =0;i < 1024;i++){
-          tmp += result[i];
-      }
-      *ret = tmp;
+    if (threadIdx.x == 0) {
+        float tmp = 0;
+        for (int i = 0; i < 1024; i++) {
+            tmp += result[i];
+        }
+        *ret = tmp;
     }
-
-    
 }
 // 使用 cuda 硬件加速
 float reduce_cuda(float *p, ulong N)
@@ -30,7 +28,7 @@ float reduce_cuda(float *p, ulong N)
     cudaMalloc((void **)&dev_ret, 1 * sizeof(float));
     cudaMemcpy(dev_p, p, N, cudaMemcpyHostToDevice);
 
-    dim3 blockDim= 1024;
+    dim3 blockDim = 1024;
     dim3 gridDim = (N + blockDim.x - 1) / blockDim.x;
 
     reduce_kernel<<<1, blockDim>>>(dev_p, N, dev_ret);
@@ -42,6 +40,5 @@ float reduce_cuda(float *p, ulong N)
     cudaFree(dev_p);
     cudaFree(dev_ret);
 
-    return host_ret/N;
-
+    return host_ret / N;
 }

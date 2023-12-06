@@ -1,4 +1,5 @@
-#include "a.hpp"
+#include "profile.hpp"
+#include "reduction.hpp"
 #include <assert.h>
 #include <boost/format.hpp>
 #include <co/cout.h>
@@ -12,10 +13,12 @@
 #include <random>
 #include <string>
 #include <thread>
+// zhe
 using boost::format;
 using namespace std;
 const unsigned long N = 1 << 20;
 using ulong = unsigned long;
+
 float reduce_cpu(float *p, const unsigned long N)
 {
     float total{ 0 };
@@ -50,11 +53,6 @@ float param_reduce_cpu(float *p, ulong N, ulong block_size)
         total += fut.get();
     }
     return total;
-}
-
-int64_t get_now_milli()
-{
-    return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
 }
 
 int main()
