@@ -1,6 +1,7 @@
 .PHONY: clean build
 BUILD_TYPE ?= Debug
 CUDA_VERSION := $(shell nvcc --version|grep -oP 'cuda_(\d+\.\d+)'| sed 's/cuda_//')
+BUILD_TYPE ?= Debug
 target ?= cuda
 build: clean
 	@echo "CUDA Version: $(CUDA_VERSION)"
