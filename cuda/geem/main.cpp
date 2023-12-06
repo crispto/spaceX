@@ -107,13 +107,17 @@ int main(int argc, char **argv)
     float *B = new float[N * K];
     float *C_cpu = new float[M * K];
     float *C_gpu = new float[M * K];
-    for (int i = 0; i < M * N; i++) {
-        A[i] = rand() % 100;
-    }
-    for (int i = 0; i < N * K; i++) {
-        B[i] = rand() % 100;
-    }
+    float *C_gpu2 = new float[M * K];
+    {
 
+        PROF("prepare data");
+        for (int i = 0; i < M * N; i++) {
+            A[i] = rand() % 100;
+        }
+        for (int i = 0; i < N * K; i++) {
+            B[i] = rand() % 100;
+        }
+    }
     {
         // PROF("cpu");
         PROF("cpu");
@@ -124,13 +128,22 @@ int main(int argc, char **argv)
         PROF("gpu-origin");
         geem_float(A, B, C_gpu, M, N, K);
     }
+    {
+        PROF("gpu-optimized");
+        geem_float2(A, B, C_gpu2, M, N, K);
+    }
     // display_matrix(C_cpu, M, K);
     // display_matrix(C_gpu, M, K);
     bool equal = mat_check_equal(C_cpu, C_gpu, M, K);
-    std::cout << "equal: " << equal << std::endl;
     if (!equal) {
-        std::cout << "rmsd: " << mat_rmsd(C_cpu, C_gpu, M, K) << std::endl;
+        std::cout << "C_gpu rmsd: " << mat_rmsd(C_cpu, C_gpu, M, K) << std::endl;
     }
+
+    equal = mat_check_equal(C_cpu, C_gpu2, M, K);
+    if (!equal) {
+        std::cout << "C_gpu2 rmsd: " << mat_rmsd(C_cpu, C_gpu2, M, K) << std::endl;
+    }
+
     free(A);
     free(B);
     free(C_cpu);

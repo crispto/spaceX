@@ -19,5 +19,5 @@ clean:
 	rm -rf ${repo}/build
 
 run:
-	@${repo}/build/bin/${target} 15
+	@${repo}/build/bin/${target} 10
 	
