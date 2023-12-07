@@ -46,21 +46,22 @@ __global__ void geem_float_kernel2(float *A, float *B, float *C, int M, int N, i
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     extern __shared__ float array[];
     float *row_data = array;
-    float *col_data = row_data + blockDim.y * N * sizeof(float);
+    float *col_data = row_data + blockDim.y * N; // 多余一些也没问题
     // 注意内存合并
     // 获取行
-    for (int id = threadIdx.x; id < N; id += blockDim.x) {
-        row_data[blockIdx.y * N + id] = A[row * N + id];
+    for (int id = threadIdx.x; row < M && id < N; id += blockDim.x) {
+        row_data[threadIdx.y * N + id] = A[row * N + id];
     }
     // 获取列
-    for (int id = threadIdx.y; id < N; id += blockDim.y) {
-        col_data[blockIdx.x * N + id] = B[id * K + col];
+    for (int id = threadIdx.y; col < K && id < N; id += blockDim.y) {
+        col_data[threadIdx.x * N + id] = B[id * K + col];
     }
     // 同步： 等 block 内的所有 thread 将 本 block 的数据从 global memory 中的数据都取回
     __syncthreads();
+
     float total = 0;
     for (int i = 0; i < N; i++) {
-        total += row_data[blockIdx.y * N + i] * col_data[blockIdx.x * N + i];
+        total += row_data[threadIdx.y * N + i] * col_data[threadIdx.x * N + i];
     }
     C[row * K + col] = total;
 }

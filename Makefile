@@ -15,9 +15,11 @@ build: clean
 
 	cd ${repo}/build && make -j8
 
+geem:
+	cmake --build cuda/build --target geem
 clean:
 	rm -rf ${repo}/build
 
 run:
-	@${repo}/build/bin/${target} 10
+	@${repo}/build/bin/${target} 1
 	

@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-        "name": "CUDA C++: Launch",
-        "type": "cuda-gdb",
-        "request": "launch",
-        "program": "${workspaceRoot}/cuda/build/geem"
+      "name": "CUDA C++: Launch",
+      "type": "cuda-gdb",
+      "request": "launch",
+      "program": "${workspaceRoot}/cuda/build/bin/geem",
+      "args": "10"
     },
-
     {
       "name": "(gdb) Launch",
       "type": "cppdbg",

@@ -38,6 +38,7 @@ template <typename T> void gemm_cpu(T *A, T *B, T *C, int M, int N, int K)
 
 template <typename T> void display_matrix(T *A, int row, int col)
 {
+    std::cout << "display .................................." << std::endl;
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < col; j++) {
             cout << A[i * col + j] << "\t";
@@ -45,6 +46,7 @@ template <typename T> void display_matrix(T *A, int row, int col)
         cout << endl;
     }
     cout << endl;
+    std::cout << "display .............end .............." << std::endl;
 }
 // mat check equal
 template <typename T> bool mat_check_equal(T *A, T *B, int row, int col)
@@ -100,9 +102,9 @@ int main(int argc, char **argv)
     BOOST_LOG_TRIVIAL(trace) << "scale is " << scale << std::endl;
 
     // float matrix 1000 * 1600;
-    int M = 100 * scale;
-    int N = 120 * scale;
-    int K = 140 * scale;
+    int M = 10 * scale;
+    int N = 12 * scale;
+    int K = 14 * scale;
     float *A = new float[M * N];
     float *B = new float[N * K];
     float *C_cpu = new float[M * K];
@@ -132,7 +134,7 @@ int main(int argc, char **argv)
         PROF("gpu-optimized");
         geem_float2(A, B, C_gpu2, M, N, K);
     }
-    // display_matrix(C_cpu, M, K);
+    display_matrix(A, M, K);
     // display_matrix(C_gpu, M, K);
     bool equal = mat_check_equal(C_cpu, C_gpu, M, K);
     if (!equal) {
