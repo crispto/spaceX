@@ -9,3 +9,6 @@ __pycache__
 *.pyc
 out
 logs
+perf.data
+*.perf
+*.folded
