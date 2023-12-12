@@ -12,7 +12,7 @@ file(GLOB demo_dir *.cpp)
 foreach(src ${demo_dir})
   get_filename_component(subdir_name ${src} NAME_WE)
   add_executable(${subdir_name} ${src})
-  target_link_libraries(${subdir_name} ${OpenCV_LIBS})
+  target_link_libraries(${subdir_name} ${OpenCV_LIBS} profiler)
   # set target bin directory bin/cuda set_target_properties( ${subdir_name}
   # PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/opencv)
 endforeach()
