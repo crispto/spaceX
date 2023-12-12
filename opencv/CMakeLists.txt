@@ -1,4 +1,5 @@
 # find openv
+set(CMAKE_BUILD_TYPE Debug)
 find_package(OpenCV REQUIRED)
 if(OpenCV_FOUND)
   message(STATUS "OpenCV found")
