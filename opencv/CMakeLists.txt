@@ -9,11 +9,13 @@ if(OpenCV_FOUND)
 else()
   message(FATAL_ERROR "OpenCV not found")
 endif()
-file(GLOB demo_dir *.cpp)
-foreach(src ${demo_dir})
-  get_filename_component(subdir_name ${src} NAME_WE)
-  add_executable(${subdir_name} ${src})
-  target_link_libraries(${subdir_name} ${OpenCV_LIBS} profiler)
-  # set target bin directory bin/cuda set_target_properties( ${subdir_name}
-  # PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/opencv)
-endforeach()
+
+add_executable(perf_demo perf_opencv_demo.cpp)
+target_link_libraries(perf_demo ${OpenCV_LIBS})
+
+
+option(BUILD_GPERF "Build gperf demo" OFF)
+if(BUILD_GPERF)
+  add_executable(gperf_demo gperf_opencv_demo.cpp)
+  target_link_libraries(gperf_demo${OpenCV_LIBS} profiler )
+endif()
