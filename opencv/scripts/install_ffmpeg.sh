@@ -28,6 +28,6 @@ sudo apt-get update -qq && sudo apt-get -y install \
 VERSION=$(cat /etc/os-release | awk -F= '$1=="VERSION_ID"{print $2}' | sed 's/"//g')
 
 if [ $VERSION == "20.04"];then
-    sudo apt install libunistring-dev libaom-dev libdav1d-dev
+    sudo apt install -y libunistring-dev libaom-dev libdav1d-dev
 fi
 
