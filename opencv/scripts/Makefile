@@ -1,5 +1,6 @@
+.PHONY: build
 build:
-	mkdir build && cd build && \
+	cd build && \
 	cmake \
 	-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.8.1/modules \
 	-D CMAKE_BUILD_TYPE=Debug \
@@ -18,5 +19,5 @@ build:
 	-D BUILD_opencv_apps=ON \
 	-D ENABLE_PROFILING=ON ..
 
-	make -j$(nproc)
+	make -j$(shell nproc)
 
