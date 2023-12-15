@@ -10,3 +10,4 @@ function install(){
 }
 
 install
+rm -rf gerftools
