@@ -3,7 +3,7 @@ BUILD_TYPE ?= Debug
 CUDA_VERSION := $(shell nvcc --version|grep -oP 'cuda_(\d+\.\d+)'| sed 's/cuda_//')
 BUILD_TYPE ?= Debug
 
-repo ?= cuda
+repo ?= opencv
 target ?= geem
 
 build: clean
