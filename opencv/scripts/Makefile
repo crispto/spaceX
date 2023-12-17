@@ -17,7 +17,6 @@ build:
 	-D BUILD_PERF_TESTS=ON \
 	-D BUILD_EXAMPLES=ON \
 	-D BUILD_opencv_apps=ON \
-	-D ENABLE_PROFILING=ON ..
-
-	make -j$(shell nproc)
+	-D ENABLE_PROFILING=ON .. \
+	&& make -j$(shell nproc)
 

@@ -23,4 +23,8 @@ unzip opencv.zip
 unzip opencv_contrib.zip
 cd opencv-4.8.1
 ln -s $cwd/Makefile .
+
+#before build, maybe you need to run some command
+
+# export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.7
 make build
