@@ -1,6 +1,7 @@
 .PHONY: clean build
 BUILD_TYPE ?= Debug
 CUDA_VERSION := $(shell nvcc --version|grep -oP 'cuda_(\d+\.\d+)'| sed 's/cuda_//')
+CUDA_VERSION ?= 11.4
 BUILD_TYPE ?= Debug
 
 repo ?= opencv

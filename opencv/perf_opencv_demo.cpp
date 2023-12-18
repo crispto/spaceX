@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     i++;
     cv::Mat m = cv::imread("data/crowd.jpeg");
     cv::Mat out;
-    cv::resize(m, out, cv::Size(), 0.5,0.5, cv::INTER_LINEAR);
+    cv::resize(m, out, cv::Size(0, 0), 0.5,0.5, cv::INTER_LINEAR);
     cv::imwrite("scale.jpeg", out);
     // this_thread::sleep_for(chrono::milliseconds(100));
     }

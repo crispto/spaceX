@@ -29,7 +29,13 @@ int main(int argc, char **argv)
     cv::Mat m = cv::imread("data/crowd.jpeg");
     cv::Mat out;
     cv::resize(m, out, cv::Size(), 0.5,0.5, cv::INTER_LINEAR);
-    cv::imwrite("scale.jpeg", out);
+    cout <<"Mat size" << out.size << endl;
+    cv::imwrite("scale_with_xy.jpeg", out);
+
+    cv::Size resized_shape{600, 400};
+    cv::Mat out2;
+    cv::resize(m, out2, resized_shape, 0,0, cv::INTER_LINEAR);
+    cv::imwrite("scale_by_size.jpeg", out);
     // this_thread::sleep_for(chrono::milliseconds(100));
     }
     ProfilerStop();

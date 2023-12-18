@@ -12,14 +12,14 @@ else()
   message(FATAL_ERROR "OpenCV not found")
 endif()
 
-add_executable(perf_demo perf_opencv_demo.cpp)
-target_link_libraries(perf_demo ${OpenCV_LIBS})
 
+add_executable(per_demo perf_opencv_demo.cpp)
+target_link_libraries(per_demo ${OpenCV_LIBS} profiler)
 
 option(BUILD_GPERF "Build gperf demo" ON)
 if(BUILD_GPERF)
   add_executable(gperf_demo gperf_opencv_demo.cpp)
-  target_link_libraries(gperf_demo ${OpenCV_LIBS} profiler )
+  target_link_libraries(gperf_demo ${OpenCV_LIBS} profiler)
 endif()
 
 
