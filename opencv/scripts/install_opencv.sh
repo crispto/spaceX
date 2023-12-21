@@ -3,7 +3,6 @@ set -x
 set +e
 sudo apt-get -y install libgtk2.0-dev
 
-
 set -e
 opencv_url="https://github.com/opencv/opencv/archive/refs/tags/4.8.1.zip"
 opencv_contrib_url="https://github.com/opencv/opencv_contrib/archive/refs/tags/4.8.1.zip"
